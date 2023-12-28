@@ -1,0 +1,32 @@
+[ CS crash course youtube ]
+
+https://youtube.com/playlist?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo
+
+
+[operating system videos]
+
+https://youtu.be/9GDX-IyZ_C8
+https://www.youtube.com/playlist?list=PLEJxKK7AcSEGPOCFtQTJhOElU44J_JAun
+https://www.youtube.com/playlist?list=PLBlnK6fEyqRiVhbXDGLXDk_OQAeuVcp2O
+
+[ how cpu works (very good videos should be watched multiple times!) ]
+|fetch-decode-execute cycle|
+
+https://youtu.be/cNN_tTXABUA
+https://youtu.be/Z5JC9Ve1sfI
+
+
+--------------------------------------------------------------------------------------
+Refrence website ==> https://wiki.osdev.org
+
+[ os dev playlists ] 
+1 - https://www.youtube.com/playlist?list=PLm3B56ql_akNcvH8vvJRYOc7TbYhRs19M ( Daedalus Community )
+2 - https://www.youtube.com/playlist?list=PLFjM7v6KGMpiH2G-kT781ByCNC_0pKpPN ( nanobyte )
+3 - https://www.youtube.com/playlist?list=PLHh55M_Kq4OApWScZyPl5HhgsTJS9MZ6M ( Write your own Operating System )
+
+why pm
+https://stackoverflow.com/questions/48743371/why-do-we-need-to-enter-32-bit-protected-mode-anyway
+
+[ good channels ]
+* https://www.youtube.com/channel/UCKS34cSMNaXaySe2xgXH-3A 
+* https://www.youtube.com/watch?v=Z5JC9Ve1sfI
