@@ -1,41 +1,35 @@
-#define VID_MEM 0xb8000
+#include "std/stdin.h"
+#include "std/stdout.h"
 
 
-
-// calculates the vga text-mode address
-int get_address(int row,int column){
-   return VID_MEM + 2 * (row * 80 + column);
-}
-
-// writes string to the video memory (.n) is newline
-void print( int colour, const char *string )
-{    
-    volatile char *video = (volatile char*)0xB8000;
-    int row = 1;
-
-    while( *string != 0 )
-    {
-        if(*string  == '.' && *(string + 1) == 'n')
-        {
-            video = (char*)get_address(row,0);
-            row +=1; 
-            string +=2;
-            continue;
-        }
-        else{
-        *video++ = *string++;
-        *video++ = colour;
+// Your kernel_start function
+void kernel_start(){
+    // Now, let's handle keyboard input
+    char *buf[1];
+    char *linefeed = "type> \0";
+    char *welcome_msg = "welcome to my 32 bit operating system :).n";
+    print(1, welcome_msg);
+    print(2, linefeed);
+    while(1) {
+        // Check for keyboard input
+        if (isKeyboardInputAvailable()) {
+            char keyPressed = readKeyboardInput();
+            // Process the key here as needed
+            // For now, just print the key to the screen
+            char keyString[3] = { keyPressed };
+            if (keyPressed == '\n'){
+                print(3, ".n");
+                print(2, linefeed);
+            }
+            // linefeed protector and delete handler
+            else if(keyPressed == '\b' && col > 6){
+                *video-- = ' ';
+                *video-- = 0;
+                col -= 1;
+            }
+            else{
+                print(7, keyString);
+            }
         }
     }
 }
-void puts(int row,int col, char *chr){
-    volatile char *video = (volatile char*)0xB8000;
-
-    video = (char*)get_address(row,col);
-    *video = *chr;
-}
-
-void kernel_start(){
-    puts(10,10,"A");
-}
-
