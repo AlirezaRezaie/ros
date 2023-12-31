@@ -16,6 +16,11 @@ mov sp, bp
 ; loading the kernel in memory location 0x1000
 call read_disk
 
+; ; Set up VESA graphics mode (example: mode 0x101 - 640x480, 16 colors)
+; mov ax, 0x4F02     ; VESA function to set video mode
+; mov bx, 0x101      ; Mode number for desired resolution/color depth
+; int 0x10           ; Call BIOS interrupt to set the video mode
+
 ; initialize protected mode
 init_pm:
 
