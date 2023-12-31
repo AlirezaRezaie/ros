@@ -1,2 +1,1 @@
-; just to pad the os image (and make it bigger) :)
-times 10240 db 0
+times 10240000 db 0 ; This will add enough zeros to reach around 10MB
