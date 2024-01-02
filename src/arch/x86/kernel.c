@@ -1,5 +1,6 @@
 #include "std/stdin.h"
 #include "std/stdout.h"
+#include "utils/time.h"
 
 
 // Your kernel_start function
@@ -10,6 +11,8 @@ void kernel_start(){
     char *welcome_msg = "welcome to my 32 bit operating system :).n";
     print(1, welcome_msg);
     print(2, linefeed);
+    setCursorPosition(row,col);
+
     while(1) {
         // Check for keyboard input
         if (isKeyboardInputAvailable()) {
@@ -30,6 +33,12 @@ void kernel_start(){
             else{
                 print(7, keyString);
             }
+            setCursorPosition(row,col);
+
         }
+        unsigned char bfr[20];
+        get_time(bfr);
+        puts(24, 72, bfr);
+
     }
 }

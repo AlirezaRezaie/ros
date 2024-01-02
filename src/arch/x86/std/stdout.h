@@ -10,6 +10,6 @@ extern int row;
 extern int col;
 
 void print(int colour, char *string);
-void puts(int row, int col, char *chr);
+void puts(int row, int col,unsigned char *chr);
 
 #endif

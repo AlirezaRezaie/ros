@@ -7,5 +7,6 @@
 
 int isKeyboardInputAvailable();
 char readKeyboardInput();
-
+unsigned char rtc_read(unsigned char reg);
+void setCursorPosition(int row, int col);
 #endif

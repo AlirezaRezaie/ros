@@ -31,9 +31,24 @@ void print( int colour,  char *string )
         }
     }
 }
-void puts(int row,int col, char *chr){
+void puts(int row,int col,unsigned char *chr){
     volatile char *video = (volatile char*)0xB8000;
-
     video = (char*)get_address(row,col);
-    *video = *chr;
+    while (*chr !=0)
+    {
+        *video++ = *chr++;
+        *video++ = 3;
+
+    }
+
+}
+void clearScreen() {
+    // Assuming video is a pointer to the video memory
+    char *video = (char *)0xB8000; // Modify this according to your video memory address
+
+    // Fill the screen with blank spaces
+    for (int i = 0; i < (25 * 80 * 2); i += 2) {
+        video[i] = ' '; // Write a space character
+        video[i + 1] = 0; // Set the attribute byte to 0 (assuming default color)
+    }
 }
