@@ -33,9 +33,9 @@ init_pm:
     ;call print_string
     
     ; some delay just for looking cool :)
-    call delay
-    mov ax, 0x0003
-    int 10h
+    ;call delay
+    ;mov ax, 0x0003
+    ;int 10h
  
     cli
     ; this instruction loads the gdt location and size into the gdtr (gdt register) in the cpu
