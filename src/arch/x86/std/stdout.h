@@ -10,6 +10,8 @@ extern int row;
 extern int col;
 
 void print(int colour, char *string);
-void puts(int row, int col,unsigned char *chr);
-
+void sprint( int colour, char *string);
+void puts(int row, int col,unsigned char *chr,int colour);
+void clearScreen();
+void shiftScreenUp();
 #endif

@@ -52,3 +52,26 @@ void add_to_string(unsigned char* source,unsigned char* destination,int* size){
         (*size)++;
     }
 }
+
+void add_char_to_string(char character, char* destination, int* size, int max_size) {
+    destination[*size] = character;
+    (*size) += 1;
+    destination[*size] = '\0'; // Ensure null-termination
+}
+
+int str_cmpr(const char* str1, const char* str2){
+    while (*str1 != '\0' && *str2 != '\0') {
+        if (*str1 != *str2){
+            return 0;
+        }
+        str1++;
+        str2++;
+    }
+    
+    // Check if both strings have reached the end
+    if (*str1 == '\0' && *str2 == '\0') {
+        return 1; // Strings are equal
+    } else {
+        return 0; // Strings are of different lengths
+    }
+}

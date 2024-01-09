@@ -10,28 +10,35 @@ unsigned char rtc_read(unsigned char reg) {
     return inb(0x71);
 }
 
+void bcd_to_string(unsigned char reg,unsigned char* high,unsigned char* low){
+    unsigned char bcd = rtc_read(reg);
+    intToString((unsigned int)(bcd >> 4) & 0x0F, high);
+    intToString((unsigned int)bcd & 0x0F, low);
+}
+
+// TODO: add iran time support
 void get_time(unsigned char* buffer){
     int buf_size = 0;
 
-    for (int i = 4; i >= 0; i -= 2)
-    {
-        unsigned char bcd = rtc_read(i);
+    unsigned char hour_high[3],hour_low[3];
+    unsigned char min_high[3],min_low[3];
+    unsigned char second_high[3],second_low[3];
 
-        unsigned char highsec = (bcd >> 4) & 0x0F;
-        unsigned char lowsec = bcd & 0x0F;
+    bcd_to_string(0x04,hour_high,hour_low);
+    bcd_to_string(0x02,min_high,min_low);
+    bcd_to_string(0x00,second_high,second_low);
 
-        unsigned char low[3]; // Assuming min will be within 0-59 range
-        unsigned char high[3]; // Assuming min will be within 0-59 range
+    add_to_string("UTC TIME ",buffer,&buf_size);
 
-        intToString((unsigned int)lowsec, low);
-        intToString((unsigned int)highsec, high);
+    add_to_string(hour_high,buffer,&buf_size);
+    add_to_string(hour_low,buffer,&buf_size);
+    add_to_string(":",buffer,&buf_size);
 
+    add_to_string(min_high,buffer,&buf_size);
+    add_to_string(min_low,buffer,&buf_size);
+    add_to_string(":",buffer,&buf_size);
 
-        add_to_string(high,buffer,&buf_size);
-        add_to_string(low,buffer,&buf_size);
-        add_to_string(":",buffer,&buf_size);
-
-    }
-
+    add_to_string(second_high,buffer,&buf_size);
+    add_to_string(second_low,buffer,&buf_size);
 
 }
