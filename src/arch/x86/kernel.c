@@ -10,7 +10,7 @@ void executor(char* command){
         clearScreen();
         setCursorPosition(20, 20);
     }else if(str_cmpr(command,"info")){
-        print(2,"yes ok ;]");
+        print(2,"yes ok ;].n.n");
     }
 }
 void clear_buffer(char* destination, int size) {
@@ -44,11 +44,11 @@ void kernel_start(){
 
     print(2, linefeed);
     puts(24,0, banner,70);
+    puts(0,0, welcome_msg,5);
 
     setCursorPosition(row,col);
     
     while(1) {
-        puts(0,0, welcome_msg,5);
 
         // Check for keyboard input
         if (isKeyboardInputAvailable()) {
@@ -58,7 +58,7 @@ void kernel_start(){
             add_to_string(keyString,cmd_buffer,&cmd_buf_size);
             if (keyPressed == '\n'){
                 // check for any commands and execute them
-
+                int prev_row = row;
                 cmd_buffer[cmd_buf_size-1] = '\0';
                 print(3, ".n");
                 executor(cmd_buffer);
@@ -71,9 +71,11 @@ void kernel_start(){
                 print(2, linefeed);
 
                 if (row >= 21){
-                    shiftScreenUp();
-                    shiftScreenUp();
-
+                    for (int i = 0; i < row - prev_row; i++)
+                    {
+                        shiftScreenUp();
+                    }
+                    
                     row = 20;
                     col = 6;
                     print(2, linefeed);
