@@ -63,6 +63,8 @@ clean:
 	rm -rf $(BIN_FOLDER)/*
 
 # Rule to run the OS image in QEMU
+# you can add qemu-system-x86_64 -full-screen rest-of-options
+# to make it fullscreen
 run:
 	qemu-system-x86_64 -drive format=raw,file=$(BIN_FOLDER)/os.img,index=0,if=floppy,  -m 128M
 run-vbox:

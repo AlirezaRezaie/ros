@@ -1,5 +1,8 @@
 #include "stdin.h"
+#include "stdout.h"
+
 #include "../utils/controller.h"
+#include "../utils/string.h"
 
 
 void setCursorPosition(int row, int col) {
@@ -30,12 +33,21 @@ int isKeyboardInputAvailable() {
     return status & 0x1;
 }
 
-// Function to read keyboard input
 char readKeyboardInput() {
-    // Wait until the input is available
     while (!isKeyboardInputAvailable());
 
-    // Read the data from the keyboard data port
     unsigned char data = inb(KEYBOARD_DATA_PORT);
+
+    // we only read non holding scan keys
+    if (data & 0x80) {
+        // This is a break code, ignore it
+        return 0;
+    }
+    // print the scan code for debug
+    char* b;
+    intToString(data,b);
+    puts(23,78,b,background_color);
+
+    // return the corresponding character to the key
     return keyMap[data];
 }
