@@ -1,3 +1,8 @@
+#include "../std/stdout.h"
+#include "time.h"
+#include "math.h"
+#include "string.h"
+
 // some utils
 void reverse(char* str, int length) {
     int start = 0;
@@ -54,9 +59,11 @@ void add_to_string(unsigned char* source,unsigned char* destination,int* size){
 }
 
 void add_char_to_string(char character, char* destination, int* size, int max_size) {
-    destination[*size] = character;
-    (*size) += 1;
-    destination[*size] = '\0'; // Ensure null-termination
+    if (character != 0){
+        destination[*size] = character;
+        destination[*size+1] = '\0';  // Null-terminate the string
+        (*size) += 1;
+    }
 }
 
 void add_string_by_size(int from_size,int to_size, char* from,char* to){
@@ -69,7 +76,20 @@ void add_string_by_size(int from_size,int to_size, char* from,char* to){
     to[limit] = '\0';
 }
 
-void str_cpy(char* dest, const char* src) {
+void cutSubstring(int a, int b,char* from, char* to) {
+    // Get the length of the substring
+    int length = b - a;
+
+    // Copy the substring from 'from' to 'to'
+    for (int i = 0; i < length; i++) {
+        to[i] = from[a + i];
+    }
+
+    // Null-terminate the destination string
+    to[length] = '\0';
+}
+
+void str_cpy(char* dest, char* src) {
     while (*src != '\0') {
         *dest = *src;
         dest++;
@@ -89,7 +109,11 @@ int strlen(char* str) {
     return length;
 }
 
-int str_cmpr(const char* str1, const char* str2){
+int str_cmpr(char* str1,  const char* str2){
+    if (str1 == 0 || str2 == 0) {
+        // Handle NULL pointers appropriately
+        return 0;
+    }
     while (*str1 != '\0' && *str2 != '\0') {
         if (*str1 != *str2){
             return 0;
@@ -100,8 +124,10 @@ int str_cmpr(const char* str1, const char* str2){
     
     // Check if both strings have reached the end
     if (*str1 == '\0' && *str2 == '\0') {
+        //print(2,"are equal.n\0");
         return 1; // Strings are equal
     } else {
+        //print(2,"no same length.n\0");
         return 0; // Strings are of different lengths
     }
 }
@@ -123,26 +149,35 @@ void clear_buffer(char* destination, int size) {
     }
 }
 
-void split_string(char* string,const char splitter,char** out){
-    int string_index = 0;
-    int string_list_index=0;
-    int length = strlen(string);
+void split_string(char* string,int* str_len,const char splitter,STRLIST* out){
+    int a = -1;
+    int b = 0;
+    char* part = (char*) 100000;
+    clear_buffer(part,100);
+
+    int num_of_splits=0;
+    
+    int length = *str_len;
+
     for (int i = 0; i < length; i++)
     {
-        if(string[i] == splitter){
-            char part1[i];
-            char part2[length-i];
-
-
-            add_string_by_size(0,i,string,part1);
-            add_string_by_size(i,length,string,part2);
-
-            out[0] = part1;
-            out[1] = part2;
-            break;
+        if(string[i] == splitter || string[i] == 0){
+            a+=1;
+            cutSubstring(a,b,string,part);
+            out->list[num_of_splits] = part;
+            part += 20;
+            num_of_splits ++;
+            a = b;
         }
+        b++;
     }
 
+    if (num_of_splits == 0){
+        string[*str_len] = '\0';
+        out->list[0] = string;
+    }
+
+    out->length = num_of_splits;
 }
 
 void shift_string_right(char* string,int size){
@@ -186,4 +221,8 @@ int stringToInt(const char* str) {
 
     // Apply the sign
     return sign * result;
+}
+
+int exists(char** string_list){
+    
 }

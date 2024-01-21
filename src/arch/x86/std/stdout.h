@@ -13,9 +13,10 @@ extern int background_color;
 void print(int colour, char *string);
 void sprint( int colour, char *string);
 void puts(int row, int col,unsigned char *chr,int colour);
+void setCursorPosition(int row, int col);
 
 void clearScreen();
 void fill_screen();
-void shiftScreenUp();
+void shiftScreenUp(int times);
 
 #endif
