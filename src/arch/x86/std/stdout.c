@@ -1,9 +1,22 @@
 #include "stdout.h"
+#include "../utils/controller.h"
 
 volatile char *video = (volatile char*)0xB8000;
 int row = 0;
 int col = 0;
-int background_color = 23;
+int background_color = 113;
+
+
+void setCursorPosition(int row, int col) {
+    int position = row * 80 + col; // Assuming 80 columns
+
+    // Send command byte to VGA registers
+    outb(0x3D4, 0x0F); // VGA control register: set low cursor byte
+    outb(0x3D5, (unsigned char)(position & 0xFF)); // Low byte
+
+    outb(0x3D4, 0x0E); // VGA control register: set high cursor byte
+    outb(0x3D5, (unsigned char)((position >> 8) & 0xFF)); // High byte
+}
 
 // calculates the vga text-mode address
 int get_address(int row,int column){
@@ -13,6 +26,8 @@ int get_address(int row,int column){
 // writes string to the video memory (.n) is newline
 void print( int colour,  char *string )
 {
+
+
     while( *string != 0)
     {
         if(*string  == '.' && *(string + 1) == 'n')
@@ -29,6 +44,11 @@ void print( int colour,  char *string )
             *video++ = colour;
             col += 1;
         }
+    }
+
+    if(row + 1 > 21){
+        shiftScreenUp(2);
+        row -= 2;
     }
 }
 void sprint( int colour,  char *string )
@@ -89,15 +109,19 @@ void fill_screen() {
 }
 
 // the 23 was 24 revert if some bug happens
-void shiftScreenUp() {
+void shiftScreenUp(int times) {
+
     char *video = (char *)0xB8000; // Modify this according to your video memory address
-    for (int i = 0; i < (23 * 80 * 2) - (80 * 2); ++i) {
-        video[i] = video[i + 160]; // Shifts the content up by one row (80 columns * 2 bytes per character)
-    }
 
-    // Clear the last row to prevent remnants
-    for (int i = (23 * 80 * 2) - (80 * 2); i < (24 * 80 * 2); i+=2) {
-        video[i] = 0; // Clearing the last row
-    }
+    for (int time = 1; time <= times; time++)
+    {
+        for (int i = 0; i < (24 * 80 * 2) - (80 * 2); ++i) {
+            video[i] = video[i + 160]; // Shifts the content up by one row (80 columns * 2 bytes per character)
+        }
 
+        // Clear the last row to prevent remnants
+        for (int i = (24 * 80 * 2) - (80 * 2); i < (24 * 80 * 2); i+=2) {
+            video[i] = 0; // Clearing the last row
+        }
+    }
 }
