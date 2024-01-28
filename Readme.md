@@ -3,7 +3,7 @@
 this is my toy os project made just for fun and learning purposes 
 
 ## Preview
-![os preview](resources/os_preview.webm)
+![Screencast from 24-01-28 22:05:27.webm](https://github.com/AlirezaRezaie/ros/assets/65468740/2e3e0af0-aeb5-4e30-ab51-1ce3505fee15)
 
 ### < how to build >
 ```shell
@@ -147,6 +147,7 @@ https://youtu.be/Z5JC9Ve1sfI
 
 
 Refrence website ==> https://wiki.osdev.org
+
 
 [ os dev playlists ] <br>
 1 - https://www.youtube.com/playlist?list=PLm3B56ql_akNcvH8vvJRYOc7TbYhRs19M ( Daedalus Community )<br>
