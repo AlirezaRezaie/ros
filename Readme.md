@@ -3,7 +3,10 @@
 this is my toy os project made just for fun and learning purposes 
 
 ## Preview
-![Screencast from 24-01-28 22:05:27.webm](https://github.com/AlirezaRezaie/ros/assets/65468740/2e3e0af0-aeb5-4e30-ab51-1ce3505fee15)
+
+video:
+
+https://github.com/AlirezaRezaie/ros/assets/65468740/2e3e0af0-aeb5-4e30-ab51-1ce3505fee15
 
 ### < how to build >
 ```shell
