@@ -152,7 +152,7 @@ void clear_buffer(char* destination, int size) {
 void split_string(char* string,int* str_len,const char splitter,STRLIST* out){
     int a = -1;
     int b = 0;
-    char* part = (char*) 100000;
+    char* part = (char*) 500000;
     clear_buffer(part,100);
 
     int num_of_splits=0;

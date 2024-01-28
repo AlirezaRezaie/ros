@@ -1,14 +1,18 @@
-#include "keyboard.h"
+#include "terminal.h"
 #include "std/stdout.h"
 #include "std/stdin.h"
 #include "utils/string.h"
 #include "utils/controller.h"
+#include "utils/time.h"
+#include "utils/math.h"
 
-char *cmd_buffer = (char*) 0xf000;
+char *cmd_buffer = (char*) 0x255550;
 int cmd_buf_size = 0;
 int max_size = 100; // Adjust the maximum buffer size as needed
 char *buf[1];
 char *linefeed = ".ntype> \0";
+int current_time = 10000;
+char *welcome_msg = "welcome to my 32 bit operating system :) \0";
 
 CommandMapping commands[] = {
     {"clear", clear},
@@ -18,7 +22,6 @@ CommandMapping commands[] = {
 };
 
 void executor(char* full_command) {
-
     STRLIST str;
     str.list = (char**) 0x100000;
     split_string(full_command, &cmd_buf_size, ' ', &str);
@@ -30,11 +33,27 @@ void executor(char* full_command) {
             return;
         }
     }
-
     print(3," .n \0");
+    print(3,"command not found: ");
+    print(3,full_command);
 }
 
-void handle_keyboard(){
+void prepare_terminal(){
+
+    char *banner = fill_string(' ',80);
+    
+    background_color = 113;
+
+    print(2, linefeed);
+    puts(0,0, welcome_msg ,5);
+    puts(24,0, banner,70);
+
+    setCursorPosition(row,col);
+
+}
+
+void terminal(){
+
     // Check for keyboard input
     if (isKeyboardInputAvailable()) {
         char keyPressed = readKeyboardInput();
@@ -49,7 +68,9 @@ void handle_keyboard(){
             cmd_buffer[cmd_buf_size-1] = '\0';
             cmd_buffer[cmd_buf_size] = '\0';
 
-            executor(cmd_buffer);
+            if (strlen(cmd_buffer) > 0){
+                executor(cmd_buffer);
+            }
 
             // print(5,cmd_buffer);
             clear_buffer(cmd_buffer,max_size);
@@ -79,5 +100,21 @@ void handle_keyboard(){
         setCursorPosition(row,col);
 
     }
-    
+
+        
+    unsigned char time_bfr[20];
+    get_time(time_bfr);
+    puts(24, 62, time_bfr,75);
+
+    char* unix_t;
+    intToString(get_timestamp()/1000,unix_t);
+    puts(1,60,"time ",75);
+    puts(1,65,unix_t,75);
+
+    if (get_timestamp() - current_time > 3 * pow(10,8)){
+        puts(24,0,welcome_msg,75);
+        shift_string_right(welcome_msg,strlen(welcome_msg));
+        current_time = get_timestamp();
+    }
+
 };

@@ -1,8 +1,7 @@
-#include "keyboard.h"
+#include "terminal.h"
 #include "std/stdout.h"
 #include "utils/string.h"
 #include "utils/controller.h"
-#include "keyboard.h"
 
 void info(CommandArguments* args){
     print(15,"here are all the commands: .n");

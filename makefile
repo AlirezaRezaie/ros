@@ -14,7 +14,7 @@ GCC_COMPILE_OPT =		\
 # List of C source files in the kernel directory
 KERNEL_C_FILES :=  $(wildcard $(KERNEL)/*.c)          \
 				   $(wildcard $(KERNEL)/utils/*.c)    \
-				   $(wildcard $(KERNEL)/keyboard/*.c) \
+				   $(wildcard $(KERNEL)/terminal/*.c) \
 				   $(wildcard $(KERNEL)/std/*.c)
 
 # List of object files for each C file in the kernel directory
@@ -41,10 +41,11 @@ $(BIN_FOLDER)/zeroes.bin: $(BOOTLOADER)/zeroes.asm
 $(BIN_FOLDER)/%.o: $(KERNEL)/%.c
 	mkdir -p bin/utils/
 	mkdir -p bin/std/
-	$(CROSSCOMPILER_PATH)/i686-elf-gcc $(GCC_COMPILE_OPT) $< -o $@
+	mkdir -p bin/terminal/
+	$(CROSSCOMPILER_PATH)/i686-elf-gcc -I$(KERNEL) $(GCC_COMPILE_OPT) $< -o $@
 
-$(BIN_FOLDER)/%.o: $(KERNEL)/utils/%.c
-	$(CROSSCOMPILER_PATH)/i686-elf-gcc $(GCC_COMPILE_OPT) $< -o $@
+# $(BIN_FOLDER)/%.o: $(KERNEL)/utils/%.c
+# 	$(CROSSCOMPILER_PATH)/i686-elf-gcc -Isrc/arch/x86 $(GCC_COMPILE_OPT) $< -o $@
 
 
 # Rule to link kernel entry object file with all kernel object files

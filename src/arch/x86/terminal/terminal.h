@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#ifndef TERMINAL_H
+#define TERMINAL_H
 
 typedef struct {
     char* command;
@@ -12,11 +12,17 @@ typedef struct {
 } CommandMapping;
 
 void executor(char* full_command);
-void handle_keyboard();
+
+void terminal();
+void prepare_terminal();
+
 void info(CommandArguments* args);
 void clear();
 void setcolor(CommandArguments* args);
 void count(CommandArguments* args);
 
 extern char *linefeed;
+extern int current_time;
+extern char *welcome_msg;
+
 #endif
