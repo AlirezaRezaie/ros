@@ -2,7 +2,7 @@
 
 this is my toy os project made just for fun and learning purposes 
 
-## video Preview
+## Video preview
 
 https://github.com/AlirezaRezaie/ros/assets/65468740/2e3e0af0-aeb5-4e30-ab51-1ce3505fee15
 
