@@ -5,8 +5,10 @@
 void kernel_start(){
     //clearScreen();
     prepare_terminal();
+    fill_screen();
+    
     while(1) {
-        fill_screen();
         terminal();
     }
 }
+

@@ -21,9 +21,11 @@ void setcolor(CommandArguments* args){
     // puts(20,40,split_command[1],6);
     if (strlen(args->argument) == 2){
         background_color = color;
-        print(2,"ok setting color.n");
+        print(background_color,"ok setting color.n");
+        fill_screen();
+
     }else{
-        print(2,"int should be only 2 digit .n");
+        print(background_color,"int should be only 2 digit .n");
     }
 }
 

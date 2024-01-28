@@ -22,6 +22,7 @@ CommandMapping commands[] = {
 };
 
 void executor(char* full_command) {
+
     STRLIST str;
     str.list = (char**) 0x100000;
     split_string(full_command, &cmd_buf_size, ' ', &str);
@@ -33,17 +34,15 @@ void executor(char* full_command) {
             return;
         }
     }
-    print(3," .n \0");
-    print(3,"command not found: ");
-    print(3,full_command);
+    //print(background_color,".n\0");
+    print(background_color,"command not found: ");
+    print(background_color,full_command);
 }
 
 void prepare_terminal(){
 
     char *banner = fill_string(' ',80);
     
-    background_color = 113;
-
     print(2, linefeed);
     puts(0,0, welcome_msg ,5);
     puts(24,0, banner,70);
@@ -69,7 +68,10 @@ void terminal(){
             cmd_buffer[cmd_buf_size] = '\0';
 
             if (strlen(cmd_buffer) > 0){
+                print(background_color,".n\0");
                 executor(cmd_buffer);
+            }else{
+                print(background_color,".n\0");
             }
 
             // print(5,cmd_buffer);
@@ -89,7 +91,7 @@ void terminal(){
         else if(keyPressed == '\b' && col > 6){
             video -= 2;  // Move the pointer back by two positions (assuming each character takes two bytes)
             *video = ' ';  // Update the value
-            *(video + 1) = 0;  // Null-terminate the character
+            *(video + 1) = background_color;  // Null-terminate the character
             col -= 1;
             cmd_buffer[cmd_buf_size -2] = '\0';
             cmd_buf_size -=2; 

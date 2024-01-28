@@ -101,10 +101,8 @@ void fill_screen() {
     // Fill the screen with blank spaces
     for (int i = 0; i < (24 * 80 * 2); i += 2) {
         //video[i] = 0; // Write a space character
-        if (video[i] == 0 || (video[i+1] / 10) % 10 ==0){  
-        //video[i + 1] = background_color + video[i + 1] % 10 ; // Set the attribute byte to 0 (assuming default color)
         video[i + 1] = background_color; // Set the attribute byte to 0 (assuming default color)
-        }
+        
     }
 }
 
