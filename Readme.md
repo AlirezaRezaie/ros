@@ -3,8 +3,7 @@
 this is my toy os project made just for fun and learning purposes 
 
 ## Preview
-<video src="resources/os_preview.webm"></video>
-
+![os preview](resources/os_preview.webm)
 
 ### < how to build >
 ```shell
