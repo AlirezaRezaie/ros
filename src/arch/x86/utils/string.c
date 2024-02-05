@@ -3,12 +3,12 @@
 #include "math.h"
 #include "string.h"
 
-// some utils
-void reverse(char* str, int length) {
+// Function to reverse a string
+void reverse( char* str, int length) {
     int start = 0;
     int end = length - 1;
     while (start < end) {
-        char temp = str[start];
+        unsigned char temp = str[start];
         str[start] = str[end];
         str[end] = temp;
         start++;
@@ -16,7 +16,22 @@ void reverse(char* str, int length) {
     }
 }
 
-void intToString(int num, unsigned char* buffer) {
+void intToHex(unsigned int num, char* hexBuffer) {
+    const char* hexChars = "0123456789ABCDEF";
+
+    // Start from the end of the buffer
+    int i = 7;
+    while (i >= 0) {
+        hexBuffer[i] = hexChars[num & 0xF]; // Get the least significant nibble
+        num >>= 4; // Move to the next nibble
+        i--;
+    }
+
+    // Null-terminate the buffer
+    hexBuffer[8] = '\0';
+}
+
+void intToString( long num, unsigned char* buffer) {
     int i = 0;
     int isNegative = 0;
 
