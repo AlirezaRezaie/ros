@@ -2,20 +2,25 @@ ENTRY(_start)
 
 SECTIONS
 {
-   . = 0x1000;
+    . = 0x1000;
 
-   .text :
-   {
-      *(.text)
-   }
+    .text :
+    {
+        *(.text)
+    }
 
-   .bss :
-   {
-      *(.bss)
-   }
+    .data :
+    {
+        *(.data)
+    }
+    
+    . += 0xF00000;
 
-   .data :
-   {
-      *(.data)
-   }
+    .bss :
+    {
+        *(.bss)
+    }
+    
+
+
 }
