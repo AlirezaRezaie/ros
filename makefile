@@ -55,7 +55,7 @@ $(BIN_FOLDER)/full_kernel.bin: $(BIN_FOLDER)/kernel_entry.o $(KERNEL_OBJ_FILES)
 
 # Rule to create the bootable image for VirtualBox
 create_virtualbox_image: all
-	dd if=/dev/zero of=$(BIN_FOLDER)/osflop.img bs=512 count=2880  # Create a 1.44 MB blank disk image
+	dd if=/dev/zero of=$(BIN_FOLDER)/osflop.img bs=512 count=6000  # Create a 1.44 MB blank disk image
 	dd if=$(BIN_FOLDER)/boot.bin of=$(BIN_FOLDER)/osflop.img conv=notrunc  # Write the bootloader to the disk image
 	dd if=$(BIN_FOLDER)/full_kernel.bin of=$(BIN_FOLDER)/osflop.img seek=1 conv=notrunc  # Write the kernel after the bootloader
 
