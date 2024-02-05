@@ -3,8 +3,8 @@ read_disk:
     ; bios read functions
     mov ah, 0x02
 
-    ; reading just one sector
-    mov al, 10
+    ; adjust as needed (as big as the kernel size)
+    mov al, 40
 
     ; chs addressing
     mov ch, 0x00 ; cylender
@@ -18,8 +18,7 @@ read_disk:
     mov dl, BOOT_DISK
 
     int 0x13  
-    ; jump to error handler if c flag is one
-    ; jc disk_error
+    jc disk_error
 
     ; returning to the caller address
     ret
@@ -27,7 +26,7 @@ read_disk:
 ; error handler
 disk_error:
     mov bx, error_msg
-    ;call print_string
+    call print_string
     jmp $
 
 error_msg:
