@@ -51,7 +51,7 @@ init_pm:
 
 %include "gdt.asm"
 %include "read_disk.asm"
-;%include "print_string.asm"
+%include "print_string.asm"
 %include "delay.asm"
 
 ; this tells the assembeler (in this case nasm) to compile the
@@ -67,7 +67,7 @@ start_protected_mode:
 	mov fs, eax
 	mov gs, eax
 
-	mov ebp, 0x90000		; 32 bit stack base pointer
+	mov ebp, 0x8000000		; 32 bit stack base pointer
 	mov esp, ebp
 
     jmp KERNEL_LOCATION
