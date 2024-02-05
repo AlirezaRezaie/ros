@@ -6,7 +6,7 @@
 #include "utils/time.h"
 #include "utils/math.h"
 
-char *cmd_buffer = (char*) 0x255550;
+
 int cmd_buf_size = 0;
 int max_size = 100; // Adjust the maximum buffer size as needed
 char *buf[1];
@@ -52,7 +52,7 @@ void prepare_terminal(){
 }
 
 void terminal(){
-
+    char *cmd_buffer = (char*) 0x7f5500;
     // Check for keyboard input
     if (isKeyboardInputAvailable()) {
         char keyPressed = readKeyboardInput();
@@ -108,8 +108,8 @@ void terminal(){
     get_time(time_bfr);
     puts(24, 62, time_bfr,75);
 
-    char* unix_t;
-    intToString(get_timestamp()/1000,unix_t);
+    char unix_t[40];
+    intToString(get_timestamp(),unix_t);
     puts(1,60,"time ",75);
     puts(1,65,unix_t,75);
 
