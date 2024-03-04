@@ -13,7 +13,7 @@ typedef struct {
 
 void executor(char* full_command);
 
-void terminal();
+void terminal(char keyPressed);
 void prepare_terminal();
 
 void info(CommandArguments* args);

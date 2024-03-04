@@ -22,8 +22,6 @@ int isKeyboardInputAvailable() {
 
 
 char readKeyboardInput() {
-
-
     while (!isKeyboardInputAvailable());
 
     unsigned char data = inb(KEYBOARD_DATA_PORT);
@@ -34,10 +32,16 @@ char readKeyboardInput() {
         return 0;
     }
     // print the scan code for debug
-    // char* b;
-    // intToString(data,b);
-    // puts(23,78,b,background_color);
+    char b[3];
+    intToString(data,b);
+    puts(23,78,b,background_color);
 
     // return the corresponding character to the key
-    return keyMap[data];
+    return data;
+
+}
+
+
+char codeToChar(char scan_code){
+    return keyMap[scan_code];
 }

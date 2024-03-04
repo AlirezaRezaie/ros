@@ -10,9 +10,9 @@
 int cmd_buf_size = 0;
 int max_size = 100; // Adjust the maximum buffer size as needed
 char *buf[1];
-char *linefeed = ".ntype> \0";
-int current_time = 10000;
+char *linefeed = "type> ";
 char *welcome_msg = "welcome to my 32 bit operating system :) \0";
+int current_time = 10000;
 
 CommandMapping commands[] = {
     {"clear", clear},
@@ -34,31 +34,35 @@ void executor(char* full_command) {
             return;
         }
     }
-    //print(background_color,".n\0");
-    print(background_color,"command not found: ");
-    print(background_color,full_command);
+    printf("command not found: %c",full_command);
 }
 
 void prepare_terminal(){
-
+    row = 0;
+    col = 0;
     char *banner = fill_string(' ',80);
-    
-    print(2, linefeed);
-    puts(0,0, welcome_msg ,5);
+
+    printf("\n %c",linefeed);
+    //puts(0,0, welcome_msg ,5);
     puts(24,0, banner,70);
 
     setCursorPosition(row,col);
 
 }
 
-void terminal(){
+void open_blank_page(){
+
+}
+
+
+void terminal(char keyPressed){
     char *cmd_buffer = (char*) 0x7f5500;
     // Check for keyboard input
-    if (isKeyboardInputAvailable()) {
-        char keyPressed = readKeyboardInput();
+    if (keyPressed != '\0'){
+        keyPressed = codeToChar(keyPressed);
         // add the character to the cmd buffer
         add_char_to_string(keyPressed,cmd_buffer,&cmd_buf_size,100);
-        char keyString[2] = { keyPressed };
+        char keyString[1] = { keyPressed };
 
         if (keyPressed == '\n'){
             // check for any commands and execute them
@@ -67,24 +71,21 @@ void terminal(){
             cmd_buffer[cmd_buf_size-1] = '\0';
             cmd_buffer[cmd_buf_size] = '\0';
 
+            printf("\n\0");
             if (strlen(cmd_buffer) > 0){
-                print(background_color,".n\0");
                 executor(cmd_buffer);
-            }else{
-                print(background_color,".n\0");
             }
 
-            // print(5,cmd_buffer);
             clear_buffer(cmd_buffer,max_size);
             cmd_buf_size = 0; 
 
-            print(background_color, linefeed);
+            printf("\n %c",linefeed);
 
             if (row > 21){
                 shiftScreenUp(row - prev_row);
                 row = 20;
                 col = 6;
-                print(background_color, linefeed);
+                printf(linefeed);
             }
         }
         // linefeed protector and delete handler
@@ -94,17 +95,16 @@ void terminal(){
             *(video + 1) = background_color;  // Null-terminate the character
             col -= 1;
             cmd_buffer[cmd_buf_size -2] = '\0';
-            cmd_buf_size -=2; 
+            cmd_buf_size -=2;
         }
         else{
-            print(background_color, keyString);
+            printf(keyString);
         }
         setCursorPosition(row,col);
-
     }
 
-        
     unsigned char time_bfr[20];
+
     get_time(time_bfr);
     puts(24, 62, time_bfr,75);
 
@@ -118,5 +118,4 @@ void terminal(){
         shift_string_right(welcome_msg,strlen(welcome_msg));
         current_time = get_timestamp();
     }
-
 };
