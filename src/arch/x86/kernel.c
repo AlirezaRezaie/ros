@@ -19,6 +19,16 @@ void kernel_start() {
     int start_term = 1;
     char keyPressed;
 
+    MemoryMapEntry* a = malloc(VID_SIZE);
+    printf("\n first mem loc: %x",a->base_adr);
+
+    copy_memory(VID_MEM,VID_MEM+VID_SIZE,a->base_adr);
+
+    clearScreen();
+
+    copy_memory(a->base_adr,a->base_adr+VID_SIZE,VID_MEM);
+    
+
     while (1) {
         if (isKeyboardInputAvailable()) 
              keyPressed = readKeyboardInput();
