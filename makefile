@@ -6,6 +6,7 @@ BIN_FOLDER=bin
 
 # Compiler Options
 GCC_COMPILE_OPT =		\
+ 	-fno-pie            \
 	-ffreestanding   	\
 	-m32				\
 	-g					\
@@ -42,7 +43,7 @@ $(BIN_FOLDER)/%.o: $(KERNEL)/%.c
 	mkdir -p bin/utils/
 	mkdir -p bin/std/
 	mkdir -p bin/terminal/
-	$(CROSSCOMPILER_PATH)/i686-elf-gcc -I$(KERNEL) $(GCC_COMPILE_OPT) $< -o $@
+	gcc -I$(KERNEL) $(GCC_COMPILE_OPT) $< -o $@
 
 # $(BIN_FOLDER)/%.o: $(KERNEL)/utils/%.c
 # 	$(CROSSCOMPILER_PATH)/i686-elf-gcc -Isrc/arch/x86 $(GCC_COMPILE_OPT) $< -o $@
@@ -50,7 +51,7 @@ $(BIN_FOLDER)/%.o: $(KERNEL)/%.c
 
 # Rule to link kernel entry object file with all kernel object files
 $(BIN_FOLDER)/full_kernel.bin: $(BIN_FOLDER)/kernel_entry.o $(KERNEL_OBJ_FILES)
-	$(CROSSCOMPILER_PATH)/i686-elf-ld -o $@ -T linker.d $^ --oformat binary
+	ld -melf_i386 -o $@ -T linker.d $^ --oformat binary
 
 
 # Rule to create the bootable image for VirtualBox
