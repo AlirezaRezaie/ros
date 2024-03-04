@@ -74,7 +74,7 @@ void add_to_string(unsigned char* source,unsigned char* destination,int* size){
 }
 
 void add_char_to_string(char character, char* destination, int* size, int max_size) {
-    if (character != 0){
+    if (character != 0 ){
         destination[*size] = character;
         destination[*size+1] = '\0';  // Null-terminate the string
         (*size) += 1;
@@ -139,10 +139,8 @@ int str_cmpr(char* str1,  const char* str2){
     
     // Check if both strings have reached the end
     if (*str1 == '\0' && *str2 == '\0') {
-        //print(2,"are equal.n\0");
         return 1; // Strings are equal
     } else {
-        //print(2,"no same length.n\0");
         return 0; // Strings are of different lengths
     }
 }

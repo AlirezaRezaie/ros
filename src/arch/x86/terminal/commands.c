@@ -4,9 +4,9 @@
 #include "utils/controller.h"
 
 void info(CommandArguments* args){
-    print(15,"here are all the commands: .n");
-    print(15,"setcolor {color_int} - sets the terminal color.n");
-    print(15,"clear - clears the screen.n");
+    printf("here are all the commands:");
+    printf("\n setcolor {color_int} - sets the terminal color");
+    printf("\n clear - clears the screen");
 }
 
 void clear(CommandArguments* args){
@@ -21,25 +21,20 @@ void setcolor(CommandArguments* args){
     // puts(20,40,split_command[1],6);
     if (strlen(args->argument) == 2){
         background_color = color;
-        print(background_color,"ok setting color.n");
+        printf("ok setting color \n\0");
         fill_screen();
 
     }else{
-        print(background_color,"int should be only 2 digit .n");
+        printf("int should be only 2 digit \n\0");
     }
 }
 
-void count( CommandArguments* args){    
-    print(3, " .n ");
+void count( CommandArguments* args){
 
     int count_num = stringToInt(args->argument);
 
     for (int i = 0; i < count_num; i++)
     {
-        char* num;
-        intToString(i,num);
-        //print(15,"counting: ");
-        print(15,num);
-        print(3,".n");
+        printf("%d\n\0",i);
     }
 }
