@@ -1,5 +1,7 @@
 #include "stdout.h"
 #include "../utils/controller.h"
+#include "../utils/string.h"
+#include <stdarg.h>
 
 volatile char *video = (volatile char*)0xB8000;
 int row = 0;
@@ -23,25 +25,52 @@ int get_address(int row,int column){
    return VID_MEM + 2 * (row * 80 + column);
 }
 
-// writes string to the video memory (.n) is newline
-void print( int colour,  char *string )
+void printf ( char *string ,...)
 {
+    va_list args;
+    int i;
+    char *str;
+	va_start(args, string);
 
-
-    while( *string != 0)
+    while( *string != '\0')
     {
-        if(*string  == '.' && *(string + 1) == 'n')
-        {
+        if (*string == '\n'){
             row += 1;
             col = 0;
             video = (char*)get_address(row,col);
             string +=2;
-            continue;
+        }else if (*string == '%'){
+            switch (*(string+1))
+            {
+                char string_num[20];
+                case 'd':
+                    i = va_arg(args, int);
+                    intToString(i,string_num);
+                    puts(row,col,string_num,background_color);
+                    col +=strlen(string_num);
+                    string +=2;
+                    break;
+                case 'x':
+                    i = va_arg(args, int);
+                    intToHex(i,string_num);
+                    puts(row,col,string_num,background_color);
+                    col +=strlen(string_num);
+                    string +=2;
+                    break;
+                case 'c':
+                    str = va_arg(args, char*);
+                    puts(row,col,str,background_color);
+                    col +=strlen(str);
+                    string +=2;
+                    break;
+                default:
+                    break;
+            }
         }
         else{
             video = (char*)get_address(row,col);
             *video++ = *string++;
-            *video++ = colour;
+            *video++ = background_color;
             col += 1;
         }
     }
@@ -50,26 +79,87 @@ void print( int colour,  char *string )
         shiftScreenUp(2);
         row -= 2;
     }
+    va_end(args);
 }
-void sprint( int colour,  char *string )
+
+void vprintf ( char *string ,va_list args)
 {
-    while( *string != '.')
+    int i;
+    char* str;
+
+    while( *string != '\0')
     {
-        if(*string  == '.' && *(string + 1) == 'n')
-        {
+        if (*string == '\n'){
             row += 1;
             col = 0;
             video = (char*)get_address(row,col);
             string +=2;
-            continue;
+        }else if (*string == '%'){
+            switch (*(string+1))
+            {
+                char string_num[20];
+                case 'd':
+                    i = va_arg(args, int);
+                    intToString(i,string_num);
+                    puts(row,col,string_num,background_color);
+                    col +=strlen(string_num);
+                    string +=2;
+                    break;
+                case 'x':
+                    i = va_arg(args, int);
+                    intToHex(i,string_num);
+                    puts(row,col,string_num,background_color);
+                    col +=strlen(string_num);
+                    string +=2;
+                    break;
+                case 'c':
+                    str = va_arg(args, char*);
+                    puts(row,col,str,background_color);
+                    col +=strlen(str);
+                    string +=2;
+                    break;
+                default:
+                    break;
+            }
         }
         else{
             video = (char*)get_address(row,col);
             *video++ = *string++;
-            *video++ = colour;
+            *video++ = background_color;
             col += 1;
         }
     }
+
+    if(row + 1 > 21){
+        shiftScreenUp(2);
+        row -= 2;
+    }
+    //va_end(args);
+}
+
+void sprintf(int row_n,int col_n,char* string,...){
+    // keep the previous row col location
+    int prev_row = row_n;
+    int prev_col = col_n;
+
+    row = row_n;
+    col = col_n;
+
+    va_list args;
+    va_start(args, string);
+    vprintf(string, args);
+    va_end(args);
+
+    row = prev_row;
+    col = prev_col;
+
+}
+
+void putchar(int row,int col,char chr,int colour){
+    volatile char *video = (volatile char*)0xB8000;
+    video = (char*)get_address(row,col);
+    *video++ = chr;
+    *video++ = colour;
 }
 
 void puts(int row,int col,unsigned char *chr,int colour){
